@@ -1,0 +1,17 @@
+class Solution:
+    def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+        count = {0: 1}  # Initialize count with sum 0 appearing once
+        total_sum = 0   # Initialize total sum
+        result = 0      # Initialize result
+
+        for num in nums:
+            total_sum += num  # Calculate cumulative sum
+            complement = total_sum - goal  # Calculate complement sum
+
+            if complement in count:
+                result += count[complement]  # Add count of complement sum to result
+
+            # Update count for current sum
+            count[total_sum] = count.get(total_sum, 0) + 1
+
+        return result
