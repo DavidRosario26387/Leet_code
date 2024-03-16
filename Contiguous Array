@@ -1,0 +1,15 @@
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        ticker=0
+        length=0
+        dict={0:-1}
+        for i in range(len(nums)):
+            if nums[i]==1:
+                ticker+=1
+            else:
+                ticker-=1            
+            if ticker in dict:
+                length=max(length,i-dict[ticker])
+            else:
+                dict[ticker]=i
+        return length
