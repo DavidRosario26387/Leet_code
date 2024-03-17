@@ -1,0 +1,17 @@
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        split=0
+        res=[]
+        while(split<len(intervals) and intervals[split][1]<newInterval[0]):
+            res.append(intervals[split])
+            split+=1
+        while(split<len(intervals) and intervals[split][0]<=newInterval[1]):
+            new_int=[min(newInterval[0], intervals[split][0]), max(newInterval[1], intervals[split][1])]
+            split+=1
+            newInterval=new_int
+        res.append(newInterval)
+
+        while(split<len(intervals)):
+            res.append(intervals[split])
+            split+=1
+        return res
