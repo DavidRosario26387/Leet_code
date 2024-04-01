@@ -1,0 +1,9 @@
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        s=s.strip()
+        last_char=s.rfind(" ")
+        if last_char==-1:
+            return len(s)
+        else:
+            l=len(s)
+            return l-last_char-1
