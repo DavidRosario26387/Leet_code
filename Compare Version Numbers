@@ -1,0 +1,41 @@
+class Solution:
+    def compareVersion(self, version1: str, version2: str) -> int:
+        greater=None
+        v1=clean(version1.split('.'))
+        v2=clean(version2.split('.'))
+        print(v1)
+        print(v2)
+        n1,n2=len(v1),len(v2)
+        diff=abs(n1-n2)
+        if n1<n2:
+            v1.extend(0 for i in range(diff))
+        else:
+            v2.extend(0 for i in range(diff))
+
+        for i in range(max(n1,n2)):
+            if int(v1[i])>int(v2[i]):
+                greater=1
+                break
+            elif int(v2[i])>int(v1[i]):
+                greater=2
+                break
+        else:
+            greater=None
+        
+        if greater==1:
+            return 1
+        elif greater==2:
+            return -1
+        else:
+            return 0
+
+def clean(v):
+    n=len(v)
+    for x in range(n):
+        val=0
+        for i in range(len(v[x])):
+            if v[x][i]!=0:
+                val=val*10+int(v[x][i])
+        v[x]=str(val)
+    return v
+        
