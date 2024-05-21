@@ -10,3 +10,21 @@ class Solution:
                 subset_with_ele=[[element]+subset for subset in _subsets]
                 return _subsets+subset_with_ele
         return power_set(nums)
+
+#----------------------------------------------------------------------------------------
+
+def power_set(lst):
+    out=[]
+    sub=[]
+    def dfs(i):
+        if i>=len(lst):
+            out.append(sub.copy())
+        else:
+            sub.append(lst[i])
+            dfs(i+1)
+            sub.pop()
+            dfs(i+1)
+    dfs(0)
+    print(out)
+my_list = [1, 2, 3]
+power_set(my_list)
