@@ -1,0 +1,12 @@
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def power_set(arr):
+            n=len(arr)
+            if n==0:
+                return [[]]
+            else:
+                element=arr[0]
+                _subsets=power_set(arr[1:])
+                subset_with_ele=[[element]+subset for subset in _subsets]
+                return _subsets+subset_with_ele
+        return power_set(nums)
