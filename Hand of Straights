@@ -1,0 +1,21 @@
+class Solution:
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        if len(hand)%groupSize!=0:
+            return False
+        cardCount=defaultdict(int)
+        for x in hand:
+            cardCount[x]+=1
+        print(cardCount)
+        val=list(cardCount.keys())
+        print(val)
+        while val:
+            smallest_card=min(val)
+            for i in range(smallest_card,smallest_card+groupSize):
+                if i in cardCount.keys():
+                    cardCount[i]-=1
+                    if cardCount[i]==0:
+                        val.remove(i)
+                        del cardCount[i]
+                else:
+                    return False
+        return True
