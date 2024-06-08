@@ -1,0 +1,14 @@
+class Solution:
+    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        mod_dict={0:-1}
+        prefix_mod=0
+        for i in range(len(nums)):
+            prefix_mod=(prefix_mod + nums[i]) % k
+            if prefix_mod in mod_dict.keys():
+                if (i-mod_dict[prefix_mod])>1:
+                    return True
+                else:
+                    continue
+            else:
+                mod_dict[prefix_mod]=i
+        return False
