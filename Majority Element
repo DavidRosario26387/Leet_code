@@ -1,0 +1,17 @@
+from collections import defaultdict 
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        n=len(nums)
+        count=defaultdict(int)
+        for i in nums:
+            count[i]+=1
+            if count[i]>=n/2:
+                return i
+
+#----- since majority element should appear atleast n/2 times; After sorting it appears at the location n/2  -----#
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        nums.sort()
+        n = len(nums)
+        return nums[n//2]
