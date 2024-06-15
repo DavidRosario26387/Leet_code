@@ -1,0 +1,36 @@
+#Using heapq
+
+class Solution:
+    def findMaximizedCapital(
+        self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
+        n = len(profits)
+        projects = [(capital[i], profits[i]) for i in range(n)]
+        projects.sort()
+        maxHeap = []
+        i = 0
+        for _ in range(k):
+            while i < n and projects[i][0] <= w:
+                heapq.heappush(maxHeap, -projects[i][1])
+                i += 1
+            if not maxHeap:
+                break
+            w -= heapq.heappop(maxHeap)
+
+        return w
+
+# ------------------- Sub Optimal -------------------
+class Solution:
+    def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:
+        profit=w
+        n=len(profits)
+        opp=[[profits[i],capital[i]] for i in range(n)]
+        opp.sort(key=lambda x:x[0],reverse=True)
+
+        for j in range(k):
+            for i in range(len(opp)):
+                if opp[i][1]<=w:
+                    w+=opp[i][0] #add profit
+                    profit+=opp[i][0]
+                    del opp[i]
+                    break
+        return profit
