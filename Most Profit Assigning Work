@@ -1,0 +1,13 @@
+class Solution:
+    def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
+        n=len(profit)
+        task=[[profit[i],difficulty[i]] for i in range(n)]
+        task.sort(reverse=True,key=lambda x:x[0])
+        print(task)
+        reward=0
+        for j in worker:
+            for i in range(n):
+                if j>=task[i][1]:
+                    reward+=task[i][0]
+                    break
+        return reward
