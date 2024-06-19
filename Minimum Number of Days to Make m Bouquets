@@ -1,0 +1,27 @@
+class Solution:
+    def minDays(self, bloomDay: List[int], m: int, k: int) -> int:
+        n=len(bloomDay)
+        if m * k > n :
+            return -1
+        def can_make(days):
+            bouquets=0
+            flowers=0
+            for i in bloomDay:
+                if i<=days:
+                    flowers+=1
+                    if flowers==k:
+                        bouquets+=1
+                        flowers=0
+                else:
+                    flowers=0
+                if bouquets>=m:
+                    return True
+            return False
+        min_day,max_day=min(bloomDay),max(bloomDay)
+        while min_day<max_day:
+            mid=(min_day+max_day)//2
+            if can_make(mid):
+                max_day=mid
+            else:
+                min_day=mid+1
+        return min_day if can_make(min_day) else -1
