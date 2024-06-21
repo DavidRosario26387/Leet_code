@@ -1,0 +1,17 @@
+class Solution:
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
+        n=len(customers)
+        unrealised_customers=0
+        #starting window
+        for i in range(minutes):
+            unrealised_customers += customers[i]*grumpy[i]
+        max_unrealised_customer = unrealised_customers
+        #sliding window
+        for i in range(minutes,n):
+            unrealised_customers +=customers[i]*grumpy[i]
+            unrealised_customers -=customers[i-minutes]*grumpy[i-minutes]
+            max_unrealised_customer=max(unrealised_customers,max_unrealised_customer)
+        total=max_unrealised_customer
+        for i in range(n):
+            total+=customers[i]*(1-(grumpy[i]))
+        return total
