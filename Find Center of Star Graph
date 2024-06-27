@@ -1,0 +1,9 @@
+from collections import defaultdict
+class Solution:
+    def findCenter(self, edges: List[List[int]]) -> int:
+        res=[]
+        res.extend(edges[0])
+        if edges[1][0] in res:
+            return edges[1][0]
+        else:
+            return edges[1][1]
