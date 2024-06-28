@@ -1,0 +1,34 @@
+from collections import defaultdict
+class Solution:
+    def maximumImportance(self, n: int, roads: List[List[int]]) -> int:
+        values=dict()#keep count of frequency of occcurance
+        for i in range(n):
+            values[i]=0
+        for i in roads:
+            values[i[0]]+=1
+            values[i[1]]+=1
+        assigned_val=[0]*(n) # track the values assigned to each node(city) W.R.T index
+        x=list(values.items())
+        x.sort(key=lambda x:x[1]) #sort nodes by increasing order of frequency
+        val_assign=1 
+        for i in x:  #assign value toeach node starting with value 1
+            assigned_val[i[0]]=val_assign
+            val_assign+=1
+        total=0  
+        for i in range(len(roads)):  #calculate the total cost of travel
+            total += assigned_val[roads[i][0]] + assigned_val[roads[i][1]]
+        return total
+
+#-----------------------------------------------------------------------------------
+
+class Solution:
+    def maximumImportance(self, n: int, a: List[List[int]]) -> int:
+        d=[0 for i in range(n)]
+        for x,y in a:
+            d[x]+=1
+            d[y]+=1
+        d.sort()
+        ans=0
+        for i in range(1,n+1):
+            ans+=i*d[i-1]
+        return ans
