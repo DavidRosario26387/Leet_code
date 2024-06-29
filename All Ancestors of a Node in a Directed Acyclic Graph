@@ -1,0 +1,49 @@
+class Solution:
+    def getAncestors(self, n, edges):
+        adjacency_list = [[] for _ in range(n)]
+        ancestors = [[] for _ in range(n)]
+
+        for edge in edges:
+            from_node = edge[0]
+            to_node = edge[1]
+            adjacency_list[from_node].append(to_node)
+
+        # Perform DFS for each node to find all its ancestors
+        for i in range(n):
+            self.find_ancestors_DFS(i, adjacency_list, i, ancestors)
+        return ancestors
+
+    def find_ancestors_DFS(self, ancestor, adjacency_list, current_node, ancestors):
+        for child_node in adjacency_list[current_node]:
+            # Check if the ancestor is already added to avoid duplicates
+            if (not ancestors[child_node] or ancestors[child_node][-1] != ancestor):
+                ancestors[child_node].append(ancestor)
+                self.find_ancestors_DFS(ancestor, adjacency_list, child_node, ancestors)
+
+
+#----------------------sub optimal (First recursion code)------------------------------
+
+from collections import defaultdict
+class Solution:
+    def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
+        def recurse(i,temp,x):
+            x.extend(pred[i])
+            temp.extend(pred[i])
+            if x==[]:
+                return
+            recurse(x.pop(0), temp,x)
+        pred=dict()
+        for i in range(n):
+            pred[i]=[]
+        for i in edges:
+            pred[i[1]].append(i[0])
+        res=[]
+        for i in range(n):
+            temp=[]
+            x=[]
+            recurse(i,temp,x)
+            temp=set(temp)
+            temp=list(temp)
+            temp.sort()
+            res.append(temp)
+        return res
