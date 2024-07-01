@@ -1,0 +1,18 @@
+#  ---  Sliding Window  ---
+
+class Solution:
+    def threeConsecutiveOdds(self, arr: List[int]) -> bool:
+        val=[]
+        n=len(arr)
+        for x in arr:
+            if x%2==0:
+                val.append(0)
+            else:
+                val.append(1)
+        print(val)
+        for i in range(0,n-2):
+            if all(val[i:i+3]):
+                return True
+        else:
+            return False
+ 
