@@ -1,0 +1,27 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:
+        critic=[]
+        curr=head
+        point=1
+        while curr.next.next:
+            temp=curr.next
+            point+=1
+            if temp.val < curr.val and temp.val < temp.next.val:
+                critic.append((point,temp.val))
+            elif temp.val > curr.val and temp.val > temp.next.val:
+                critic.append((point,temp.val))
+            curr=curr.next
+        print(critic)
+        if len(critic)<2:
+            return [-1,-1]
+        max_dist=critic[-1][0]-critic[0][0]
+        min_dist=float('inf')
+        for i in range(len(critic)-1):
+            if critic[i+1][0] - critic[i][0] < min_dist:
+                min_dist = critic[i+1][0] - critic[i][0]
+        return [min_dist,max_dist]        
