@@ -1,0 +1,9 @@
+class Solution:
+    def findTheWinner(self, n: int, k: int) -> int:
+        x=list(range(1,n+1))
+        pointer=0
+        while len(x)>1:
+            rem=( (pointer + k - 1) % len(x) )
+            x.pop(rem)
+            pointer=rem
+        return x[0]
