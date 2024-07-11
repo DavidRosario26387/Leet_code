@@ -1,0 +1,23 @@
+class Solution:
+    def reverseParentheses(self, s: str) -> str:
+        stack=[]
+        n=len(s)
+        pair=[0]*n
+        for i in range(n):
+            if s[i] =='(':
+                stack.append(i)
+            elif s[i]==')':
+                opening_bracket=stack.pop()
+                pair[opening_bracket]=i
+                pair[i]=opening_bracket
+        curr=0
+        dir=1
+        result=[]
+        while curr<n:
+            if s[curr]=='(' or s[curr]==')':
+                curr=pair[curr]
+                dir=-dir
+            else:
+                result.append(s[curr])
+            curr+=dir
+        return ''.join(result)
