@@ -1,0 +1,20 @@
+class Solution:
+    def maximumGain(self, s: str, x: int, y: int) -> int:
+        def remove_sub(s,sub,points):
+            stack=[]
+            score=0
+            for i in s:
+                if stack and stack[-1]+i==sub:
+                    stack.pop()
+                    score+=points
+                else:
+                    stack.append(i)
+            return ''.join(stack), score
+        if x > y:
+            remaining,score1=remove_sub(s,'ab',x)
+            remaining,score2=remove_sub(remaining,'ba',y)
+        else:
+            remaining,score1=remove_sub(s,'ba',y)
+            remaining,score2=remove_sub(remaining,'ab',x)
+        
+        return score1 + score2
