@@ -1,0 +1,37 @@
+class Solution {
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int num_row=rowSum.length;
+        int num_col=colSum.length;
+
+        int row=0;
+        int col=0;
+        int[][] res=new int[num_row][num_col];
+        for(int i=0;i<num_row;i++){
+            for(int j=0;j<num_col;j++){
+                res[i][j]=0;
+            }
+        }
+        while(row < num_row && col < num_col){
+            int val=findMin(rowSum[row],colSum[col]);
+            rowSum[row]-=val;
+            colSum[col]-=val;
+            res[row][col]=val;
+
+            if(rowSum[row]==0){
+                row+=1;
+            }
+            if(colSum[col]==0){
+                col+=1;
+            }
+        }
+        return res;
+    }
+    static int findMin(int a, int b){
+        if(a<b){
+            return  a;
+        }
+        else{
+            return b;
+        }
+    }
+}
