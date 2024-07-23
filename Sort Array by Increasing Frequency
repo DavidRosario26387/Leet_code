@@ -1,0 +1,54 @@
+# python
+
+from collections import defaultdict
+class Solution:
+    def frequencySort(self, nums: List[int]) -> List[int]:
+        vals=dict()
+        for i in nums:
+            if i not in vals.keys():
+                vals[i]=nums.count(i)
+        freq=defaultdict(list)
+        for n,f in vals.items():
+            freq[f].append(n)
+        freq=list(freq.items())
+        freq.sort()
+        for i in freq:
+            i[1].sort(reverse=True)
+        res=[]
+        for f,ele in freq:
+            for j in ele:
+                res.extend([j]*f)
+        return res
+
+# java
+
+import java.util.*;
+class Solution {
+    public int[] frequencySort(int[] nums) {
+        Map<Integer,Integer> freq=new HashMap<>();
+        for(int x : nums){
+            freq.put(x,freq.getOrDefault(x,0)+1);
+        }
+        List<Map.Entry<Integer,Integer>> entry=new ArrayList<>(freq.entrySet());
+        entry.sort((entry1,entry2)->{
+            int freqCompare = Integer.compare(entry1.getValue(), entry2.getValue());
+            if (freqCompare == 0) {
+                return Integer.compare(entry2.getKey(), entry1.getKey());
+            }
+            return freqCompare;
+        });
+        List<Integer> res=new ArrayList<>();
+        for(Map.Entry<Integer,Integer> ele: entry){
+            int num =ele.getKey();
+            int frequency=ele.getValue();
+            for(int i=0;i<frequency;i++){
+                res.add(num);
+            }
+        }
+        int[] res_arr=new int[res.size()];
+        for(int i=0;i<res.size();i++){
+            res_arr[i]=res.get(i);
+        }
+        return res_arr;
+    }
+}
