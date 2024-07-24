@@ -1,0 +1,14 @@
+class Solution:
+    def sortJumbled(self, mapping: List[int], nums: List[int]) -> List[int]:
+        nums=list(map(str,nums))
+        mapping=list(map(str,mapping))
+        vals=[]
+        for i in nums:
+            temp=''
+            for j in i:
+                temp+=mapping[int(j)]
+            vals.append(temp)
+        nums=list(map(int,nums))
+        vals=list(map(int,vals))
+        res=[n for n,v in sorted(zip(nums,vals),key=lambda x:x[1])]
+        return res
