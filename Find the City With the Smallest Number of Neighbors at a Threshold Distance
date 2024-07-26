@@ -1,0 +1,148 @@
+# Python
+
+class Solution:
+    def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
+        for i in edges:
+            if i[2]>distanceThreshold:
+                edges.remove(i)
+        graph=[[] for i in range(n)]
+        for n1,n2,dist in edges:
+            graph[n1].append([n2,dist])
+            graph[n2].append([n1,dist])
+        def get_num_neighbours(source):
+            queue=[(0,source)]
+            visited=set()
+            
+            while queue:
+                dist_to_node,node=heappop(queue)
+                if node not in visited:
+                    visited.add(node)
+                    for neighbour,dist in graph[node]:
+                        original_dist=dist_to_node+dist
+                        if original_dist<=distanceThreshold:
+                            heappush(queue,(original_dist,neighbour))
+            return len(visited)-1
+        minimum_num=n
+        res=None
+        for source in range(n):
+            neighbours=get_num_neighbours(source)
+            if neighbours<minimum_num:
+                minimum_num=neighbours
+                res=source
+            elif neighbours==minimum_num:
+                res=max(res,source)
+        return res
+
+# java
+
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        List<List<int[]>> graph=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge:edges){
+            int n1=edge[0],n2=edge[1],dist=edge[2];
+            graph.get(n1).add(new int[]{n2,dist});
+            graph.get(n2).add(new int[]{n1,dist});
+        }
+        int minimum_num=n;
+        int res=-1;
+        for(int source=0;source<n;source++){
+            int neighbours=get_num_neighbour(graph,source,n,distanceThreshold);
+            if(neighbours<=minimum_num){
+                minimum_num=neighbours;
+                res=source;
+            }
+            else if(neighbours==minimum_num){
+                res=Math.max(res,source);
+            }
+        }
+        return res;
+    }
+    int get_num_neighbour(List<List<int[]>> graph,int source, int n, int distanceThreshold){
+        PriorityQueue<int[]> minHeap=new PriorityQueue<>(Comparator.comparingInt(a->a[0]));
+        minHeap.add(new int[]{0, source});
+        Set<Integer> visited =new HashSet<>();
+
+        while(!minHeap.isEmpty()){
+            int[]  top=minHeap.poll();
+            int dist_to_node=top[0],node=top[1];
+            if(!visited.contains(node)){
+                visited.add(node);
+                for(int[] neighbour :graph.get(node)){
+                    int dist_to_source=dist_to_node+neighbour[1];
+                    if(dist_to_source<=distanceThreshold){
+                        minHeap.add(new int[]{dist_to_source,neighbour[0]});
+                    }
+
+                }
+            }
+        }
+        return visited.size() -1;
+    }
+}
+
+# Better java code
+
+class Solution {
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int[][] dist = new int[n][n];
+        
+        // Initialize the distance matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    dist[i][j] = 0;
+                } else {
+                    dist[i][j] = Integer.MAX_VALUE / 2; // Use /2 to prevent overflow
+                }
+            }
+        }
+        
+        // Update the distance matrix with the edges
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+            dist[u][v] = wt;
+            dist[v][u] = wt;
+        }
+        
+        // Apply Floyd-Warshall algorithm
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+        
+        int city = -1;
+        int minCount = n;
+        
+        // Find the city with the smallest number of reachable cities within distanceThreshold
+        for (int i = 0; i < n; i++) {
+            int count = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] <= distanceThreshold) {
+                    count++;
+                }
+            }
+            if (count < minCount) {
+                minCount = count;
+                city = i;
+            } else if (count == minCount && i > city) {
+                city = i;
+            }
+        }
+        
+        return city;
+    }
+}
+
