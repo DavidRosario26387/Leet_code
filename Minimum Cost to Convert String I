@@ -1,0 +1,81 @@
+class Solution:
+    def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+        graph=[[float('inf')]*26 for i in range(26)]
+        total=0
+        # fill matrix
+        for ori,chan,cost in zip(original,changed,cost):
+            i=ord(ori)-ord('a')
+            j=ord(chan)-ord('a')
+            graph[i][j]=min(graph[i][j],cost)
+        
+        # Floyd Warshall
+        for k in range(26):
+            for i in range(26):
+                for j in range(26):
+                    graph[i][j]=min(graph[i][j],graph[i][k]+graph[k][j])
+        
+        for s,t in zip(source,target):
+            if s==t:
+                continue
+            i=ord(s)-ord('a')
+            j=ord(t)-ord('a')
+            if graph[i][j]!=float('inf'):
+                total+=graph[i][j]
+            else:
+                return -1
+        return total
+
+# java
+
+class Solution {
+    public static final int INF = Integer.MAX_VALUE / 2;
+
+    public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+        int[][] graph = new int[26][26];
+        
+        // Initialize graph
+        for (int i = 0; i < 26; i++) {
+            for (int j = 0; j < 26; j++) {
+                if (i == j) {
+                    graph[i][j] = 0;
+                } else {
+                    graph[i][j] = INF;
+                }
+            }
+        }
+        
+        // Fill graph with conversion costs
+        for (int i = 0; i < cost.length; i++) {
+            int from = original[i] - 'a';
+            int to = changed[i] - 'a';
+            graph[from][to] = Math.min(graph[from][to], cost[i]);
+        }
+        
+        // Floyd-Warshall algorithm
+        for (int k = 0; k < 26; k++) {
+            for (int i = 0; i < 26; i++) {
+                if (graph[i][k] < INF) {
+                    for (int j = 0; j < 26; j++) {
+                        if (graph[k][j] < INF) {
+                            graph[i][j] = Math.min(graph[i][j], graph[i][k] + graph[k][j]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Calculate the total cost
+        long total = 0;
+        for (int i = 0; i < source.length(); i++) {
+            int s = source.charAt(i) - 'a';
+            int t = target.charAt(i) - 'a';
+            if (graph[s][t] < INF) {
+                total += graph[s][t];
+            } else {
+                return -1; // Transformation is not possible
+            }
+        }
+        
+        return total;       
+    }
+}
