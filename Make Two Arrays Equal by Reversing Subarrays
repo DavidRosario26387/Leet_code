@@ -1,0 +1,51 @@
+# Java
+
+class Solution {
+    public boolean canBeEqual(int[] target, int[] arr) {
+        Map<Integer,Integer> count=new HashMap<>();
+        for(int x:target){
+            count.put(x,(count.getOrDefault(x,0)+1));
+        }
+        for(int x:arr){
+            if(!count.containsKey(x)){
+                return false;
+            }
+            int curr=count.get(x);
+            if(curr==0){
+                return false;
+            }
+            count.put(x,curr-1);
+    }   
+    return true;
+    }
+}
+
+# py -1
+
+from collections import defaultdict
+class Solution:
+    def canBeEqual(self, target: List[int], arr: List[int]) -> bool:
+        if target==arr:
+            return True
+        count=defaultdict(int)
+        for i in target:
+            count[i]+=1
+        print(count.items())
+        for i in arr:
+            if count[i]==0:
+                return False
+            count[i]-=1
+        return True
+
+# py -2 (sub optimal) using set
+
+from collections import defaultdict
+class Solution:
+    def canBeEqual(self, target: List[int], arr: List[int]) -> bool:
+        set_1=set(target)
+        for i in set_1:
+            if i not in arr:
+                return False
+            elif target.count(i)!=arr.count(i):
+                return False
+        return True
