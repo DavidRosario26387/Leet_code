@@ -1,0 +1,41 @@
+# Python
+
+class Solution:
+    def rangeSum(self, nums: List[int], n: int, left: int, right: int) -> int:
+        con_sub=[]
+        for i in range(n):
+            curr_sum=0
+            for j in range(i,n):
+                curr_sum+=nums[j]
+                con_sub.append(curr_sum)
+        con_sub.sort()
+        res=sum(con_sub[left-1:right])%(10**9+7)
+        return res
+
+# Java
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Solution {
+    public int rangeSum(int[] nums, int n, int left, int right) {
+        List<Integer> con_sub_arr=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            int curr_sum=0;
+            for(int j=i;j<n;j++){
+                curr_sum+=nums[j];
+                con_sub_arr.add(curr_sum);
+            }
+        }
+        Collections.sort(con_sub_arr);
+        long res=sum(con_sub_arr,left,right);
+        return (int)(res%1000000007);
+    }
+    public long sum(List<Integer> arr, int l, int r) {
+    long sum_arr = 0;
+    for (int i = l - 1; i < r; i++){ 
+        sum_arr += arr.get(i);
+    }
+    return sum_arr;
+}}
