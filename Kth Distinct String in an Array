@@ -1,0 +1,42 @@
+# python
+
+class Solution:
+    def kthDistinct(self, arr: List[str], k: int) -> str:
+        res=[]
+        for i in arr:
+            if arr.count(i)==1:
+                res.append(i)
+        if len(res)<k:
+            return ''
+        else:
+            return res[k-1]
+
+# python using counter
+
+class Solution:
+    def kthDistinct(self, arr: List[str], k: int) -> str:
+        for v,c in Counter(arr).items():
+            if c==1:
+                k-=1
+            if k==0:
+                return v
+        return ''
+# java
+
+class Solution {
+    public String kthDistinct(String[] arr, int k) {
+        Map<String,Integer> count=new HashMap<>();
+        for(String x:arr){
+            count.put(x,(count.getOrDefault(x,0)+1));
+        }
+        for(String x:arr){
+            if(count.get(x)==1){
+                k-=1;
+            }
+            if(k==0){
+                return x;
+            }
+        }
+        return "";
+    }
+}
