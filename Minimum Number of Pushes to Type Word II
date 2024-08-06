@@ -1,0 +1,73 @@
+# python
+
+from collections import defaultdict
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        count=defaultdict(int)
+        for i in word:
+            count[i]+=1
+        x=list(count.items())
+        x.sort(key=lambda x:x[1],reverse=True)
+        vals = [[i[0], i[1]] for i in x]
+        ref=dict()
+        for i in range(len(vals)):
+            ref[vals[i][0]]=(i//8)+1
+        cost=0
+        for i in word:
+            cost+=ref[i]
+        return cost
+
+# python optimised
+
+from collections import Counter
+class Solution:
+    def minimumPushes(self, word: str) -> int:
+        count=Counter(word)
+        x=dict(sorted(count.items(),key=lambda x:x[1],reverse=True))
+        cost=0
+        r=0
+        for i in x.keys():
+            if r<8:
+                cost+=x[i]
+            elif r<16:
+                cost+=x[i]*2
+            elif r<24:
+                cost+=x[i]*3
+            else:
+                cost+=x[i]*4
+            r+=1
+        return cost
+
+# Java
+
+import java.util.Arrays;
+class Solution {
+    public int minimumPushes(String word) {
+        int[] freq =new int[26];
+        for(char c:word.toCharArray()){
+            freq[c-'a']+=1;
+        }
+        Arrays.sort(freq);
+        rev(freq);
+        int cost=0;
+        for(int i=0;i<26;i++){
+            if(freq[i]==0){
+                break;
+            }
+            cost+=(i/8+1)*freq[i];
+        }
+        return cost;
+    }
+    public static void rev(int[] arr){
+        int left=0;
+        int right=arr.length-1;
+        int temp=0;
+        while(left<right){
+            temp=arr[left];
+            arr[left]=arr[right];
+            arr[right]=temp;
+            left+=1;
+            right-=1;
+        }
+    }
+}
