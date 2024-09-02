@@ -1,0 +1,34 @@
+# python
+
+class Solution:
+    def chalkReplacer(self, chalk: List[int], k: int) -> int:
+        tot=sum(chalk)
+        k%=tot
+        for i,c in enumerate(chalk):
+            if k<c:
+                return i
+            k-=c
+
+# java
+
+class Solution {
+    public int chalkReplacer(int[] chalk, int k) {
+        long sum=sum(chalk);
+        int n=chalk.length;
+        k%=sum;
+        for(int i=0;i<n;i++){
+            if(k<chalk[i]){
+                return i;
+            }
+            k-=chalk[i];
+        }
+        return -1;
+    }
+    public long sum(int[] arr){
+        long sum=0;
+        for(int x:arr){
+            sum+=x;
+        }
+        return sum;
+    }
+}
