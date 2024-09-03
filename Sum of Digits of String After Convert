@@ -1,0 +1,36 @@
+# Java
+
+class Solution {
+    public int getLucky(String s, int k) {
+        int transform=0;
+        String tot="";
+        for(int i=0;i<s.length();i++){
+            tot+=(s.charAt(i)-96);
+        }
+        while(k>0){
+            transform=0;
+            for(int i=0;i<tot.length();i++){
+                transform+=tot.charAt(i)-'0';   //can also sub value 48 to conv str to int....'0'-->48
+            }
+            tot=String.valueOf(transform);
+            k-=1;
+        }
+        return transform;
+    }
+}
+
+# Python
+
+class Solution:
+    def getLucky(self, s: str, k: int) -> int:
+        tot=""
+        transform=0
+        for i in s:
+            tot+=str(ord(i)-96)
+        while k>0:
+            transform=0
+            for i in tot:
+                transform+=int(i)
+            tot=str(transform)
+            k-=1      
+        return transform
