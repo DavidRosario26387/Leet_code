@@ -1,0 +1,108 @@
+# Java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public int[][] spiralMatrix(int m, int n, ListNode head) {
+        int [][] arr=new int[m][n];
+        int top_row=0;
+        int bottom_row=m-1;
+        int left_col=0;
+        int right_col=n-1;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                arr[i][j]=-1;
+            }
+        }
+        while(head!=null){
+            //top-row
+            for(int i=left_col;i<=right_col;i++){
+                if(head==null) break;
+                arr[top_row][i]=head.val;
+                head=head.next;
+            }
+            top_row+=1;
+            //right col
+            for(int i=top_row;i<=bottom_row;i++){
+                if(head==null) break;
+                arr[i][right_col]=head.val;
+                head=head.next;
+            }
+            right_col-=1;
+            //bottom row in rev
+            for(int i =right_col;i>=left_col;i--){
+                if(head==null) break;
+                arr[bottom_row][i]=head.val;
+                head=head.next;
+            }
+            bottom_row-=1;
+            //left col in rev
+            for(int i=bottom_row;i>=top_row;i--){
+                if(head==null) break;
+                arr[i][left_col]=head.val;
+                head=head.next;
+            }
+            left_col+=1;
+        }
+        return arr;
+    }
+}
+
+
+
+# python
+
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def spiralMatrix(self, m: int, n: int, head: Optional[ListNode]) -> List[List[int]]:
+        matrix=[[-1]*n for x in range(m)]
+        top_row=0
+        bottom_row=m-1
+        left_col=0
+        right_col=n-1
+        cur=head
+        while cur!=None:
+            #fill top row
+            for i in range(left_col,right_col+1):
+                if cur==None:
+                    break
+                matrix[top_row][i]=cur.val
+                cur=cur.next
+            top_row+=1
+            #fill right most col
+            for i in range(top_row,bottom_row+1):
+                if cur==None:
+                    break
+                matrix[i][right_col]=cur.val
+                cur=cur.next
+            right_col-=1
+            #fill bottom row in rev
+            for i in range(right_col,left_col-1,-1):
+                if cur==None:
+                    break
+                matrix[bottom_row][i]=cur.val
+                cur=cur.next
+            bottom_row-=1
+            #fill left most col in rev
+            for i in range(bottom_row,top_row-1,-1):
+                if cur==None:
+                    break
+                matrix[i][left_col]=cur.val
+                cur=cur.next
+            left_col+=1
+        return matrix
+
+        
