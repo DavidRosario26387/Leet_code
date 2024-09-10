@@ -1,0 +1,64 @@
+# Java
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode insertGreatestCommonDivisors(ListNode head) {
+        ListNode cur=head;
+        while(cur.next!=null){
+            ListNode next_node=cur.next;
+            ListNode new_node=new ListNode(gcd(cur.val,next_node.val));
+            cur.next=new_node;
+            new_node.next=next_node;
+            cur=cur.next.next;
+        }
+        return head;   
+    }
+    public int gcd(int a,int b){
+        while(b!=0){
+            int temp=b;
+            b=a%b;
+            a=temp;
+        }
+        return a;
+    }
+}
+
+
+# python
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur=head
+        if head.next==None:
+            return head
+        while cur.next!=None:
+            next_node=cur.next
+            gcd_val=self.gcd(cur.val,next_node.val)
+            #insertion
+            new_node=ListNode(gcd_val)
+            cur.next=new_node
+            new_node.next=next_node
+            cur=cur.next.next #new node is inserted inbetween so move two nodes away
+        return head
+            
+
+    def gcd(self,a,b):
+        while b!=0:
+            temp=b
+            b=a%b
+            a=temp
+        return a
