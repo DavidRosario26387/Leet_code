@@ -1,0 +1,57 @@
+# Java
+
+class Solution {
+    public int minBitFlips(int start, int goal) {
+        int count=0;
+        while(start>0 || goal>0){
+            if(start%2 != goal%2){
+                count+=1;
+            }
+            start=start/2;
+            goal=goal/2;
+        }
+        return count;
+    }
+}
+
+# python (own code)
+
+class Solution:
+    def minBitFlips(self, start: int, goal: int) -> int:
+        def binary(num,arr):
+            if num>=1:
+                binary(num//2,arr)
+                arr.append(num%2)
+            return
+        x=[]
+        y=[]
+        binary(start,x)
+        binary(goal,y)
+        count=0
+        l,s=0,0
+        if len(x)>len(y):
+            l=x
+            s=y
+        else:
+            l=y
+            s=x
+        z=len(l)-len(s)
+        temp=[0]*z
+        temp.extend(s)
+        s=temp
+        for i in range(len(l)):
+            if l[i]!=s[i]:
+                count+=1
+        return count
+
+# python optimal code
+
+class Solution:
+    def minBitFlips(self, start: int, goal: int) -> int:
+        count=0
+        while start or goal:
+            if(start%2!=goal%2):
+                count+=1
+            start//=2
+            goal//=2
+        return count
