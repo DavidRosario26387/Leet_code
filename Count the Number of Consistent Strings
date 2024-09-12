@@ -1,0 +1,40 @@
+# Java
+
+class Solution {
+    public int countConsistentStrings(String allowed, String[] words) {
+        boolean[] table =new boolean[26];
+        for(var c:allowed.toCharArray()){
+            table[c-97]=true;
+        }
+        int count=0;
+        for(var word:words){
+            if(check(word,allowed,table)){
+                count+=1;
+            }
+        }
+        return count;
+    }
+    public boolean check(String word,String allowed,boolean[] table){
+        for(var character:word.toCharArray()){
+            if(table[character-97]==false){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+# python
+
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        def check(word):
+            for i in word:
+                if i not in allowed:
+                    return False
+            return True
+        count=0
+        for j in words:
+            if check(j):
+                count+=1
+        return count
