@@ -1,0 +1,20 @@
+class Solution {
+    public String[] uncommonFromSentences(String s1, String s2) {
+        Map<String,Integer> x=new HashMap<>();
+        String[] s1_=s1.split(" ");
+        String[] s2_=s2.split(" ");
+        List<String> res=new ArrayList<>();
+        for(String s:s1_){
+            x.put(s,(x.getOrDefault(s,0)+1));
+        }
+        for(String s:s2_){
+            x.put(s,(x.getOrDefault(s,0)+1));
+        }
+        for(Map.Entry<String,Integer> entry:x.entrySet()){
+            if(entry.getValue()<2){
+                res.add(entry.getKey());
+            }
+        }
+        return res.toArray(new  String[0]);
+    }
+}
