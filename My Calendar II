@@ -1,0 +1,66 @@
+# Java
+
+class Event{
+    int start;
+    int end;
+    public Event(int start,int end){
+        this.start=start;
+        this.end=end;
+    }
+}
+class MyCalendarTwo {
+    List<Event> booking;
+    List<Event> overlap;
+
+    public MyCalendarTwo() {
+        booking=new ArrayList<>();
+        overlap=new ArrayList<>();
+    }
+    public boolean book(int start, int end) {
+    for(Event e:overlap){
+        if(Math.max(e.start,start)<Math.min(e.end,end)){
+            return false;
+        }
+    }
+    for(Event e:booking){
+        if(Math.max(e.start,start)<Math.min(e.end,end)){
+            overlap.add(new Event(Math.max(e.start,start),Math.min(e.end,end)));
+        }
+    }
+    booking.add(new Event(start,end));
+    return true;
+    }
+}
+
+/**
+ * Your MyCalendarTwo object will be instantiated and called as such:
+ * MyCalendarTwo obj = new MyCalendarTwo();
+ * boolean param_1 = obj.book(start,end);
+ */
+
+
+
+class MyCalendarTwo:
+
+    def __init__(self):
+        self.booking=[]
+        self.overlap=[]
+    def book(self, start: int, end: int) -> bool:
+        for i in self.overlap:
+            if self.check_overlap(i[0],i[1],start,end):
+                return False
+        for i in self.booking:
+            if self.check_overlap(i[0],i[1],start,end):
+                self.overlap.append((max(i[0],start),min(i[1],end)))
+        # add event to bookings 
+        self.booking.append([start,end])
+        return True
+    def check_overlap(self,s1,e1,s2,e2):
+            if max(s1,s2)<min(e1,e2):
+                return True
+            else:
+                return False
+
+# Your MyCalendarTwo object will be instantiated and called as such:
+# obj = MyCalendarTwo()
+# param_1 = obj.book(start,end)
