@@ -1,0 +1,126 @@
+class Node{
+    public int val;
+    public Node next;
+    public Node prev;
+    
+    public Node(int val,Node next,Node prev){
+        this.val=val;
+        this.next=next;
+        this.prev=prev;
+    }
+}
+class MyCircularDeque {
+    int size;
+    int cap;
+    Node head;
+    Node rear;
+
+    public MyCircularDeque(int k) {
+        this.size=0;
+        this.cap=k;        
+    }
+    public boolean insertFront(int value) {
+        if(isFull()){
+            return false;
+        }
+        if(this.head==null){
+            this.head=new Node(value,null,null);
+            this.rear=this.head;
+        }
+        else{
+        Node x=new Node(value,null,null);
+        x.next=this.head;
+        this.head.prev=x;
+        this.head=x;}
+        this.size+=1;
+        return true;
+    }
+    public boolean insertLast(int value) {
+        if(isFull()){
+            return false;
+        }
+        if(this.head==null){
+            this.head=new Node(value,null,null);
+            this.rear=this.head;
+        }
+        else{
+        Node x=new Node(value,null,null);
+        this.rear.next=x;
+        x.prev=this.rear;
+        this.rear=x;
+        }
+        this.size+=1;
+        return true;
+    }
+    public boolean deleteFront() {
+        if(isEmpty()){
+            return false;
+        }
+        if(this.size==1){
+            this.head=null;
+            this.rear=null;
+        }
+        else{
+        this.head=this.head.next;}
+        size-=1;
+        return true;
+    }
+    public boolean deleteLast() {
+        if(isEmpty()){
+            return false;
+        }
+        if(size==1){
+            this.rear=null;
+            this.head=null;
+        }
+        else{
+        this.rear=rear.prev;}
+        size-=1;
+        return true;
+    }
+    public int getFront() {
+        if(isEmpty()){
+            return -1;
+        }
+        else{
+            return this.head.val;
+        }
+    }
+    public int getRear() {
+        if(isEmpty()){
+            return -1;
+        }
+        else{
+            return this.rear.val;
+        }
+    }
+    public boolean isEmpty() {
+        if(this.size==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public boolean isFull() {
+        if(this.size==this.cap){
+            return true;
+        }
+        else{
+            return false;
+        }  
+    }
+}
+
+/**
+ * Your MyCircularDeque object will be instantiated and called as such:
+ * MyCircularDeque obj = new MyCircularDeque(k);
+ * boolean param_1 = obj.insertFront(value);
+ * boolean param_2 = obj.insertLast(value);
+ * boolean param_3 = obj.deleteFront();
+ * boolean param_4 = obj.deleteLast();
+ * int param_5 = obj.getFront();
+ * int param_6 = obj.getRear();
+ * boolean param_7 = obj.isEmpty();
+ * boolean param_8 = obj.isFull();
+ */
