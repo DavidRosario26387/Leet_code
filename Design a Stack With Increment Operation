@@ -1,0 +1,77 @@
+class CustomStack {
+    int[] stack;
+    int top=0;
+    int maxsize;
+    public CustomStack(int maxSize) {
+        this.stack=new int[maxSize];
+        this.maxsize=maxSize;
+    }
+    public void push(int x) {
+     if(this.top>=this.maxsize){
+        return;
+    }
+     else{
+        this.stack[this.top]=x;
+        this.top+=1;
+        }   
+    }
+    public int pop() {
+        if(this.top<=0){
+            return -1;
+        }
+        else{
+            this.top-=1;
+            int pop_val= this.stack[this.top];
+            return pop_val;
+        } 
+    }
+    public void increment(int k, int val) {
+        int limit=Math.min(k,this.top);
+        for(int i=0;i<limit;i++){
+            this.stack[i]+=val;
+        }        
+    }
+}
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack obj = new CustomStack(maxSize);
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * obj.increment(k,val);
+ */
+
+
+class CustomStack:
+
+    def __init__(self, maxSize: int):
+        self.maxsize=maxSize
+        self.stack=[]
+        self.top=0
+        
+    def push(self, x: int) -> None:
+        if self.top>=self.maxsize:
+            return
+        else:
+            self.stack.append(x)
+            self.top+=1                    
+
+    def pop(self) -> int:
+        if self.top==0:
+            return -1
+        else:
+            self.top-=1
+            return self.stack.pop()
+    def increment(self, k: int, val: int) -> None:
+        if k>self.top:
+            for i in range(self.top):
+                self.stack[i]+=val
+        else:
+            for i in range(0,k):
+                self.stack[i]+=val
+        
+# Your CustomStack object will be instantiated and called as such:
+# obj = CustomStack(maxSize)
+# obj.push(x)
+# param_2 = obj.pop()
+# obj.increment(k,val)
