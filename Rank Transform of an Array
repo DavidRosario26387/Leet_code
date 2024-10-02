@@ -1,0 +1,19 @@
+class Solution {
+    public int[] arrayRankTransform(int[] arr) {
+        int[] res=new int[arr.length];
+        Set<Integer> s=new HashSet<>();
+        for(int var:arr){
+            s.add(var);
+        }
+        List<Integer> arrlist=new ArrayList<>(s);
+        Collections.sort(arrlist);
+        Map<Integer,Integer> m=new HashMap<>();
+        for(int i=0;i<arrlist.size();i++){
+            m.put(arrlist.get(i),i);
+        }
+        for(int i=0;i<arr.length;i++){
+            res[i]=m.get(arr[i])+1;
+        }
+        return res;
+    }
+}
