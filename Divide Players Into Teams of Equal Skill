@@ -1,0 +1,59 @@
+class Solution {
+    public long dividePlayers(int[] skill) {
+        int tot_sum=0;
+        for(int var:skill){
+            tot_sum+=var;
+        }
+        int n=skill.length;
+        int team_pow=tot_sum/(n/2);
+        if(n==2){
+            return skill[0]*skill[1];
+        }
+        Arrays.sort(skill);
+        int s=0;
+        int l=n-1;
+        long chem=0;
+        while(s<l){
+            if(skill[s]+skill[l]==team_pow){
+                chem+=skill[s]*skill[l];
+                s+=1;
+                l-=1;
+            }
+            else{
+                return -1;
+            }
+        }
+        return chem;
+    }
+}
+
+-----------------------------------------------------------------------
+
+class Solution:
+    def dividePlayers(self, skill: List[int]) -> int:
+        n=len(skill)
+        tot_pow=sum(skill)
+        team_pow=tot_pow/(n//2)
+        if max(skill)+min(skill)>team_pow:
+            return -1
+        if n==2:
+            return skill[0]*skill[1]
+        else: 
+            if tot_pow % (n//2)==0:
+                team_form=[]
+                skill.sort()
+                s,l=0,n-1
+                while s<l:
+                    if skill[s]+skill[l]==team_pow:
+                        team_form.append([skill[s],skill[l]])
+                        s+=1
+                        l-=1
+                    else:
+                        return -1
+                print(team_form)
+                chem=sum([x[0]*x[1] for x in team_form])
+                return chem
+            else:
+                return -1
+
+        
