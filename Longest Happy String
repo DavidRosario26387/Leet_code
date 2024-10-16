@@ -1,0 +1,82 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    public String longestDiverseString(int a, int b, int c) {
+        PriorityQueue<pair> maxheap=new PriorityQueue<>((x,y)->y.count-x.count);
+        if(a>0){
+            maxheap.add(new pair(a,'a'));
+        }        
+        if(b>0){
+            maxheap.add(new pair(b,'b'));
+        }
+        if(c>0){
+            maxheap.add(new pair(c,'c'));
+        }
+        StringBuilder res=new StringBuilder();
+        while(!maxheap.isEmpty()){
+            pair first=maxheap.poll();
+            if (res.length()>=2 && res.charAt(res.length()-1)==first.ch && res.charAt(res.length()-2)==first.ch){
+                if(maxheap.isEmpty()){
+                    break;
+                }
+                else{
+                    pair second=maxheap.poll();
+                    res.append(second.ch);
+                    second.count-=1;
+                    if(second.count>0){
+                        maxheap.add(second);
+                    }
+                    maxheap.add(first);
+                }
+            }
+            else{
+                res.append(first.ch);
+                first.count-=1;
+                if(first.count>0){
+                    maxheap.add(first);
+                }
+            }
+        }
+        return res.toString();
+    }
+    static class pair{
+        int count;
+        char ch;
+        pair(int count,char ch){
+            this.count=count;
+            this.ch=ch;
+        }
+    }
+}
+
+
+# Python
+
+
+
+class Solution:
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+        res=[]
+        hq=[]
+        if a>0:
+            heapq.heappush(hq,(-a,'a'))
+        if b>0:
+            heapq.heappush(hq,(-b,'b'))
+        if c>0:
+            heapq.heappush(hq,(-c,'c'))
+        while hq:
+            count1,char1=heapq.heappop(hq)
+            if len(res)>=2 and res[-1]==char1 and res[-2]==char1:
+                if not hq:
+                    break
+                else:
+                    count2,char2=heapq.heappop(hq)
+                    res.append(char2)
+                    if count2+1!=0:
+                        heapq.heappush(hq,(count2+1,char2))
+                    heapq.heappush(hq,(count1,char1))
+            else:
+                res.append(char1)
+                if count1+1!=0:
+                    heapq.heappush(hq,(count1+1,char1))
+        return ''.join(res)
