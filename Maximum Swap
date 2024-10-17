@@ -1,0 +1,10 @@
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        numstr=list(str(num))
+        last={int(d):i for i,d in enumerate(numstr)}
+        for i,digit in enumerate(numstr):
+            for d in range(9,int(digit),-1):
+                if last.get(d,-1)>i:
+                    numstr[i],numstr[last[d]]=numstr[last[d]],numstr[i]
+                    return int(''.join(numstr))
+        return num  
