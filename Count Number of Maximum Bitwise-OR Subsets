@@ -1,0 +1,28 @@
+from collections import defaultdict
+class Solution:
+    def countMaxOrSubsets(self, nums: List[int]) -> int:
+        def power_set(lst):
+            out=[]
+            sub=[]
+            def dfs(i):
+                if i>=len(lst):
+                    out.append(sub.copy())
+                else:
+                    sub.append(lst[i])
+                    dfs(i+1)
+                    sub.pop()
+                    dfs(i+1)
+            dfs(0)
+            return out
+        def or_op(x):
+            or_sum=0
+            if len(x)==0:
+                return 0
+            for i in x:
+                or_sum |=i
+            return or_sum
+        subsets=power_set(nums)
+        my_d=defaultdict(int)
+        for i in subsets:
+            my_d[or_op(i)]+=1
+        return max(my_d.values())
