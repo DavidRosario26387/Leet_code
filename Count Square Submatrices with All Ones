@@ -1,0 +1,50 @@
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int rows=matrix.length;
+        int cols=matrix[0].length;
+        int[][] dp=new int[rows+1][cols+1];
+        int ans=0;
+
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(matrix[i][j]==1){
+                    dp[i+1][j+1]=Math.min(Math.min(dp[i][j+1],dp[i][j]),dp[i+1][j])+1;
+                    ans+=dp[i+1][j+1];
+                }
+                else{
+                    dp[i+1][j+1]=0;
+                }
+            }
+        }
+        return ans;
+    }
+    // static int min(int a,int b,int c){
+    //     if(a<=b && a<=c){
+    //         return a;
+    //     }
+    //     else if(b<=a && b<=c){
+    //         return b;
+    //     }
+    //     else{
+    //         return c;
+    //     }
+    // }
+}
+
+
+#  py
+
+
+class Solution:
+    def countSquares(self, matrix: List[List[int]]) -> int:
+        rows=len(matrix)
+        cols=len(matrix[0])
+        dp=[[0]*(cols+1) for i in range(rows+1)]
+        ans=0
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j]==1:
+                    dp[i+1][j+1]=min(dp[i][j+1],dp[i][j],dp[i+1][j])+1
+                    ans+=dp[i+1][j+1]
+        return ans
+        
