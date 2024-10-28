@@ -1,0 +1,23 @@
+class Solution:
+    def longestSquareStreak(self, nums: List[int]) -> int:
+        l_streak=0
+        num_set=set(nums)
+
+        for x in num_set:
+            streak=0
+            current=x
+            while current in num_set:
+                streak+=1
+                if current*current<10**5:
+                    current*=current
+                else:
+                    break
+            l_streak=max(l_streak,streak)
+        if l_streak>=2:
+            return l_streak
+        else:
+            return -1
+            
+                
+
+        
