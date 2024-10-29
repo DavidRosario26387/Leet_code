@@ -1,0 +1,22 @@
+class Solution:
+    def maxMoves(self, grid: List[List[int]]) -> int:
+        m=len(grid)
+        n=len(grid[0])
+        dp=[[-1]*n for i in range(m)]
+        dir=[(0,1),(1,1),(-1,1)]
+        def dfs(row,col):
+            if dp[row][col]!=-1:
+                return dp[row][col]
+            max_moves=0
+            for i,j in dir:
+                n_row=row+i
+                n_col=col+j
+                if 0 <= n_row < m and 0 <= n_col < n and grid[row][col]<grid[n_row][n_col]:
+                    max_moves=max(max_moves,dfs(n_row,n_col)+1)
+            dp[row][col]=max_moves
+            return max_moves
+        result=0
+        for i in range(m):
+            result=max(result,dfs(i,0))
+        return result
+        
