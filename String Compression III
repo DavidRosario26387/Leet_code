@@ -1,0 +1,46 @@
+class Solution {
+    public String compressedString(String word) {
+        int n=word.length();
+        StringBuilder x= new StringBuilder();
+        int count=0;
+        char curr=word.charAt(0);
+        for(var c: word.toCharArray()){
+            if(c==curr){
+            if(count==9){
+                x.append(count);
+                x.append(curr);
+                count=0;
+            }
+            count+=1;
+            }
+            else{
+                x.append(count);
+                x.append(curr);
+                curr=c;
+                count=1;
+            }
+        }
+        if (count > 0) {
+            x.append(count);
+            x.append(curr);
+        }
+        return x.toString();
+    }
+}
+
+# -- py -- #
+
+class Solution:
+    def compressedString(self, word: str) -> str:
+        comp=""
+        pos=0
+        n=len(word)
+        while pos<n:
+            curr=word[pos]
+            streak=0
+            while pos<n and curr==word[pos] and streak<9:
+                pos+=1
+                streak+=1
+            comp+=str(streak)
+            comp+=curr
+        return comp
