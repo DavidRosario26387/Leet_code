@@ -1,0 +1,22 @@
+class Solution {
+    public int minChanges(String s){
+        int changes=0;
+        int consec=0;
+        char curr=s.charAt(0);
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)==curr){
+                consec+=1;
+                continue;
+            }
+            if(consec%2==0){
+                    consec=1;
+                }
+            else{
+                consec=0;
+                changes+=1;
+            }
+            curr=s.charAt(i);
+            }
+            return changes;
+        }
+}
