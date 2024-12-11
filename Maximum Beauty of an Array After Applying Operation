@@ -1,0 +1,13 @@
+class Solution:
+    def maximumBeauty(self, nums: List[int], k: int) -> int:
+        ranges=[]
+        for i in nums:
+            ranges.append([i-k,1])
+            ranges.append([i+k+1,-1])
+        ranges.sort()
+        max_count=0
+        curr=0
+        for i,j in ranges:
+            curr+=j
+            max_count=max(curr,max_count)
+        return max_count
