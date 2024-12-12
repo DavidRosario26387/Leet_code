@@ -1,0 +1,51 @@
+# ---using priority queue ----
+
+import java.util.Arrays;
+
+class Solution {
+    public long pickGifts(int[] gifts, int k) {
+        PriorityQueue<Integer> heap=new PriorityQueue<>((a,b)->b-a);
+        for(int i:gifts){
+            heap.add(i);
+        }
+        while(k!=0){
+            int val=heap.poll();
+            val=(int)Math.floor(Math.sqrt(val));
+            heap.add(val);
+            k-=1;
+        }
+        long sum=0;
+        for(int i:heap){
+            sum+=i;
+        }
+        return sum;
+    }
+}
+
+------------------------------------------
+
+import java.util.Arrays;
+
+class Solution {
+    public long pickGifts(int[] gifts, int k) {
+        int i=0;
+        while(i<k){
+            Arrays.sort(gifts);
+            gifts[gifts.length-1]=(int) Math.floor(Math.sqrt(gifts[gifts.length-1]));
+            i++;
+        }
+        long sum=0;
+        for(int c: gifts){
+            sum+=c;
+        } 
+        return sum;
+    }
+}
+
+# ----py----
+class Solution:
+    def pickGifts(self, gifts: List[int], k: int) -> int:
+        for i in range(k):
+            gifts.sort()
+            gifts[-1]=math.floor(math.sqrt(gifts[-1]))
+        return sum(gifts)
