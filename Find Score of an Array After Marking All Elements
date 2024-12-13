@@ -1,0 +1,57 @@
+# -- priority Queue--
+
+class Solution {
+    public long findScore(int[] nums) {
+        long score=0;
+        PriorityQueue<int[]> heap=new PriorityQueue<>((arr1, arr2) -> {
+            if (arr1[0] != arr2[0]) return arr1[0] - arr2[0];
+            return arr1[1] - arr2[1];
+        });
+        boolean[] visited=new boolean[nums.length];
+        for(int i=0;i<nums.length;i++){
+            heap.add(new int[]{nums[i],i});
+        }
+        while(!heap.isEmpty()){
+            int[] curr=heap.poll();
+            int val=curr[0];
+            int ind=curr[1];
+            if(visited[ind]){
+                continue;
+            }
+            else{
+                score+=val;
+                visited[ind]=true;
+                if(ind-1>=0){
+                    visited[ind-1]=true;
+                }
+                if(ind+1<nums.length){
+                    visited[ind+1]=true;
+                }
+            }
+        }
+        return score;
+    }
+}
+
+---------------------------
+
+class Solution:
+    def findScore(self, nums: List[int]) -> int:
+        score=0
+        n=len(nums)
+        visited=[False]*n
+        arr=[(val,ind) for ind,val in enumerate(nums)]
+        arr.sort()
+        for i in range(n):
+            val=arr[i][0]
+            ind=arr[i][1]
+            if visited[ind]:
+                continue
+            else:
+                score+=val
+                visited[ind]=True
+                if ind-1>=0:
+                    visited[ind-1]=True
+                if ind+1<n:
+                    visited[ind+1]=True
+        return score
