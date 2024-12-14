@@ -1,0 +1,52 @@
+# -- maintain min,max using deque (high performance)
+
+class Solution:
+    def continuousSubarrays(self, nums: List[int]) -> int:
+        i=0
+        cout=0
+        min_deque=deque()
+        max_deque=deque()
+        for j in range(len(nums)):
+            while min_deque and nums[min_deque[-1]]>nums[j]:
+                min_deque.pop()
+            min_deque.append(j)
+
+            while max_deque and nums[max_deque[-1]]<nums[j]:
+                max_deque.pop()
+            max_deque.append(j)
+
+            while nums[max_deque[0]]-nums[min_deque[0]]>2:
+                i+=1
+                if min_deque[0]<i:
+                    min_deque.popleft()
+                if max_deque[0]<i:
+                    max_deque.popleft()
+            cout+=(j-i+1)
+        return cout
+
+#---- java ----
+
+class Solution {
+    public long continuousSubarrays(int[] nums) {
+        int i=0;
+        PriorityQueue<Integer> minheap=new PriorityQueue<>((a,b)->nums[a]-nums[b]);
+        PriorityQueue<Integer> maxheap=new PriorityQueue<>((a,b)->nums[b]-nums[a]);
+        long cout=0;
+
+        for(int j=0;j<nums.length;j++){
+            minheap.add(j);
+            maxheap.add(j);
+            while(nums[maxheap.peek()]-nums[minheap.peek()]>2){
+                i+=1;
+                while(!maxheap.isEmpty() & maxheap.peek()<i){
+                    maxheap.poll();
+                }
+                while(!minheap.isEmpty() & minheap.peek()<i){
+                    minheap.poll();
+                }
+            }
+            cout+=(j-i+1);
+        }
+        return cout;
+    }
+}
