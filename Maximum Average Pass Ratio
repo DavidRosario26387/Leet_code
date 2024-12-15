@@ -1,0 +1,49 @@
+class Solution {
+    public double maxAverageRatio(int[][] classes, int extraStudents) {
+        double total=0.0;
+        PriorityQueue<double[]> maxheap=new PriorityQueue<>((a,b)->Double.compare(b[0],a[0]));
+        
+        int n=classes.length;
+        for(int i=0;i<n;i++){
+            maxheap.add(new double[]{gain(classes[i][0],classes[i][1]),classes[i][0],classes[i][1]});
+        }
+        while(extraStudents>0){
+            double[] curr=maxheap.poll();
+            double g=curr[0];
+            double p=curr[1];
+            double t=curr[2];
+            maxheap.add(new double[]{gain(p+1,t+1),p+1,t+1});
+            extraStudents-=1;
+        }
+        for(int i=0;i<n;i++){
+            double[] curr=maxheap.poll();
+            double g=curr[0];
+            double p=curr[1];
+            double t=curr[2];
+            total+=(p/t);
+        }
+        return total/n;
+    }
+    public double gain(double p,double t){
+        return (p+1)/(t+1)-p/t;
+}}
+
+
+
+# --py--
+class Solution:
+    def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
+        def gain(p,t):
+            return (p+1)/(t+1)-p/t
+        maxheap=[]
+        for p,t in classes:
+            g=gain(p,t)
+            heapq.heappush(maxheap,(-g,p,t))
+        for i in range(extraStudents):
+            g,p,t=heapq.heappop(maxheap)
+            heapq.heappush(maxheap,(-gain(p+1,t+1),p+1,t+1))
+        tot=0
+        while maxheap:
+            g,p,t=heapq.heappop(maxheap)
+            tot+=p/t
+        return tot/len(classes)
