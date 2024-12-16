@@ -1,0 +1,46 @@
+# array size 100, so non heap approach provides optimal result
+
+class Solution {
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        
+        for( int i=0;i<k;i++){
+            int minidx=0;
+            for(int j=0;j<nums.length;j++){
+                if(nums[j]<nums[minidx]){
+                    minidx=j;
+                }
+            }
+            nums[minidx]*=multiplier;
+        }
+        return nums;       
+}
+}
+
+---------------------------------------
+
+class Solution {
+    public int[] getFinalState(int[] nums, int k, int multiplier) {
+        PriorityQueue<int[]> minheap=new PriorityQueue<>((a,b)->{if(a[0]!=b[0]) return a[0]-b[0];
+        return a[1]-b[1];});
+
+        for(int i=0;i<nums.length;i++){
+            minheap.add(new int[]{nums[i],i});
+        }
+        while(k>0){
+            int[] curr=minheap.poll();
+            int val=curr[0];
+            int ind=curr[1];
+            val*=multiplier;
+            minheap.add(new int[]{val,ind});
+            k-=1;
+        }
+        int[] res=new int[nums.length];
+        for(int i=0;i<nums.length;i++){
+            int[] curr=minheap.poll();
+            int val=curr[0];
+            int ind=curr[1];
+            res[ind]=val;
+        }
+    return res;
+    }
+}
