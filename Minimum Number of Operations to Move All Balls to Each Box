@@ -1,0 +1,17 @@
+class Solution:
+    def minOperations(self, boxes: str) -> List[int]:
+        pos=[]
+        ind=0
+        for i in boxes:
+            if i=="1":
+                pos.append(ind)
+            ind+=1
+        print(pos)
+        ans=[0]*len(boxes)
+        for x in range(len(boxes)):
+            for un in pos:
+                ans[x]+=abs(x-un)
+        print(ans)
+        return ans
+
+        
