@@ -1,0 +1,27 @@
+class Solution:
+    def canBeValid(self, s: str, locked: str) -> bool:
+        if len(s)%2==1:
+            return False
+        unlocked=[]
+        openb=[]
+        for i in range(len(s)):
+            if locked[i]=='0':
+                unlocked.append(i)
+            elif s[i]=='(':
+                openb.append(i)
+            elif s[i]==')':
+                if openb:
+                    openb.pop()
+                elif unlocked:
+                    unlocked.pop()
+                else:
+                    return False
+        while openb and unlocked and openb[-1]<unlocked[-1]:
+            unlocked.pop()
+            openb.pop()
+        print(openb)
+        print(unlocked)
+        if openb:
+            return False
+        else:
+            return len(unlocked)%2==0            
