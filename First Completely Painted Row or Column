@@ -1,0 +1,20 @@
+class Solution:
+    def firstCompleteIndex(self, arr: List[int], mat: List[List[int]]) -> int:
+
+        m=len(mat)
+        n=len(mat[0])
+
+        pos_holder={}    # this reduces time complexity by storing all locations in one go
+        for i in range(m):
+            for j in range(n):
+                pos_holder[mat[i][j]]=(i,j)
+        
+        r_dict=[n]*m
+        c_dict=[m]*n
+        for index,val in enumerate(arr):
+            i,j=pos_holder[val]
+            r_dict[i]-=1
+            c_dict[j]-=1
+            
+            if r_dict[i]==0 or c_dict[j]==0:  # this reduces searc time to O(1)
+                return index
