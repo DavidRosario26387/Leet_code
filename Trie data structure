@@ -1,0 +1,66 @@
+class trienode:
+    def __init__(self):
+        self.children={}
+        self.eol=False
+class tr_ds:
+    def __init__(self):
+        self.root=trienode()
+    def insert(self,x):
+        curr=self.root
+        for i in x:
+            if i not in curr.children:
+                curr.children[i]=trienode()
+            curr=curr.children[i]
+        curr.eol=True
+    def search(self,x):
+        curr=self.root
+        for i in x:
+            if i not in curr.children:
+                return False
+            curr=curr.children[i]
+        return curr.eol
+    def startsWith(self,x):
+        curr=self.root
+        for i in x:
+            if i not in curr.children:
+                return False
+            curr=curr.children[i]
+        return True
+    def autocomplete(self,x):
+        curr=self.root
+        for i in x:
+            if i not in curr.children:
+                print('no suggestions')
+                return False
+            curr=curr.children[i]
+        result=[]
+        self.dfs(curr,x,result)
+        return result
+    def dfs(self,curr,x,result):
+        if curr.eol:
+            result.append(x)
+        for char,child in curr.children.items():
+            self.dfs(child,x+char,result)
+
+
+trie=tr_ds()
+
+trie.insert("apple")
+trie.insert("app")
+trie.insert("apricot")
+trie.insert("banana")
+trie.insert("bat")
+trie.insert("ball")
+
+print(trie.search("apple")) 
+print(trie.search("app"))   
+print(trie.search("apricot")) 
+print(trie.search("banana")) 
+print(trie.search("band"))  
+
+print(trie.startsWith("ap")) 
+print(trie.startsWith("ba")) 
+print(trie.startsWith("ca"))
+
+print(trie.autocomplete("ap"))  
+print(trie.autocomplete("ba"))
