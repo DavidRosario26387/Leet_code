@@ -1,0 +1,65 @@
+import java.util.*;
+
+class Solution {
+    public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+        int[] s_arr = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            s_arr[i] = nums[i];
+        }
+        Arrays.sort(s_arr);
+        Map<Integer, Integer> dict = new HashMap<>();
+        Map<Integer, Deque<Integer>> deq = new HashMap<>();
+        
+        int x = 0;
+        dict.put(s_arr[0], x);
+        
+        deq.put(x, new LinkedList<>());
+        deq.get(x).add(s_arr[0]);
+
+        for (int i = 1; i < s_arr.length; i++) {
+            if (Math.abs(s_arr[i] - s_arr[i - 1]) > limit) {
+                x++;
+            }
+            dict.put(s_arr[i], x);
+            
+            if (!deq.containsKey(x)) {
+                deq.put(x, new LinkedList<>());
+            }
+            deq.get(x).add(s_arr[i]);
+        }
+        
+        for (int i = 0; i < nums.length; i++) {
+            int grp = dict.get(nums[i]);
+            nums[i] = deq.get(grp).pop();  
+        }
+        return nums;
+    }
+}
+
+
+
+#----------------
+
+from collections import deque
+class Solution:
+    def lexicographicallySmallestArray(self, nums: List[int], limit: int) -> List[int]:
+        s_arr=sorted(nums)
+        grps={}
+        que={}
+        x=0
+        grps[s_arr[0]]=x
+        que[x]=deque([s_arr[0]])
+
+        for i in range(1,len(nums)):
+            if(abs(s_arr[i]-s_arr[i-1])>limit):
+                x+=1
+            grps[s_arr[i]]=x
+
+            if x not in que.keys():
+                que[x]=deque()
+            que[x].append(s_arr[i])
+
+        for i in range(len(nums)):
+            grpno=grps[nums[i]]
+            nums[i]=que[grpno].popleft()
+        return nums
