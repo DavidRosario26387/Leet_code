@@ -1,0 +1,15 @@
+from collections import defaultdict
+class Solution:
+    def checkIfPrerequisite(self, numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
+        ref=defaultdict(set)
+        for pre,cour in prerequisites:
+            ref[cour].add(pre)
+
+        for i in range(numCourses):
+            for j in range(numCourses):
+                if (i in ref[j]):
+                    ref[j].update(ref[i])
+        
+        result = [(pre in ref[cour]) for pre, cour in queries]
+        return result
+        
