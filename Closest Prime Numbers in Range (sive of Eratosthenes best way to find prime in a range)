@@ -1,0 +1,73 @@
+class Solution:
+    def closestPrimes(self, left: int, right: int) -> List[int]:
+        def sieve_eratosthenes(left,right):
+            sieve=[True for i in range(right+1)]
+            sieve[0]=sieve[1]=False
+            curr=2
+            while curr*curr<right+1:
+                if sieve[curr]==True:
+                    for i in range(curr*curr,right+1,curr):
+                        sieve[i]=False
+                curr+=1
+            primes=[i for i in range(left,right+1) if sieve[i]]
+            print(primes)
+
+            dis=float('inf')
+            ind=0
+            if len(primes)<2:
+                return [-1,-1]
+            for i in range(len(primes)-1):
+                diff=primes[i+1]-primes[i]
+                if diff==1:
+                    return primes[i:i+2]
+                if diff<dis:
+                    dis=diff
+                    ind=i
+            return primes[ind:ind+2]       
+        x=sieve_eratosthenes(left,right)
+        return x
+
+
+# ====================================================================
+
+
+
+from typing import List
+
+class Solution:
+    def closestPrimes(self, left: int, right: int) -> List[int]:
+        def sieve_eratosthenes(left: int, right: int) -> List[int]:
+            # Initialize sieve
+            sieve = [True] * (right + 1)
+            sieve[0] = sieve[1] = False
+            
+            # Sieve of Eratosthenes
+            for curr in range(2, int(right**0.5) + 1):
+                if sieve[curr]:
+                    for multiple in range(curr * curr, right + 1, curr):
+                        sieve[multiple] = False
+            
+            # Collect prime numbers in range [left, right]
+            primes = [num for num in range(left, right + 1) if sieve[num]]
+            
+            # If there are fewer than two primes, return [-1, -1]
+            if len(primes) < 2:
+                return [-1, -1]
+            
+            # Find the closest pair of primes
+            min_distance = float('inf')
+            closest_pair = []
+            
+            for i in range(len(primes) - 1):
+                diff = primes[i + 1] - primes[i]
+                
+                if diff == 1:
+                    return [primes[i], primes[i + 1]]
+                
+                if diff < min_distance:
+                    min_distance = diff
+                    closest_pair = [primes[i], primes[i + 1]]
+            
+            return closest_pair
+        
+        return sieve_eratosthenes(left, right)
