@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class qw{
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int size=0;
+        for(int i=0;i<=n;i++){
+            size+=i*2;
+        }
+        int[] arr=new int[size+1];
+        for(int i=1;i<=size;i++){
+            arr[i-1]=i;
+        }
+
+        int l=0,r=size;
+        for(int i=n;i>0;i--){
+            for(int k=0;k<n-i;k++){
+                System.out.print("--");
+            }
+            for(int j=0;j<i;j++){
+                System.out.print(arr[l]+" * ");
+                l+=1;
+            }
+            r-=i;
+            System.out.print(arr[r]);
+            r+=1;
+            for(int j=i;j>1;j--){
+                System.out.print(" * "+arr[r]);
+                r+=1;
+            }
+            r-=i;
+            System.out.println();
+        }
+        // for(int i=0;i<size;i++){
+        //     System.out.print(arr[i]+" ");
+        // }
+
+    }
+}
