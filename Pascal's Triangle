@@ -1,0 +1,14 @@
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        x=[[1]]
+        for i in range(numRows-1):
+            temp=x[-1].copy()
+            temp=[0]+temp+[0]
+            st=0
+            new=[]
+            for j in range(len(temp)-1):
+                two_sum=sum(temp[st:st+2])
+                new.append(two_sum)
+                st+=1
+            x.append(new)
+        return x
