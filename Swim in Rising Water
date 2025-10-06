@@ -1,0 +1,100 @@
+# Single DFS
+
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n=len(grid)
+        
+        d=max(grid[0][0],grid[-1][-1])
+        max_height=max(max(grid[i]) for i in range(n))
+
+        dir=[(0,1),(0,-1),(1,0),(-1,0)]
+        def dfs(i,j,visited):
+            if 0<=i<n and 0<=j<n and grid[i][j]<=d and visited[i][j]==False:
+                if i==(n-1) and j==(n-1):
+                    return True
+                visited[i][j]=True
+                for dx,dy in dir:
+                    x=i+dx
+                    y=j+dy
+                    if dfs(x,y,visited):
+                        return True
+                    
+        while d<=max_height:
+            visited=[[False for i in range(n)] for j in range(n)]
+            if dfs(0,0,visited):
+                return d
+            else:
+                d+=1
+        return d
+#=========================================================================================
+# Two DFS
+
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n=len(grid)
+        
+        d=max(grid[0][0],grid[-1][-1])
+        max_height=max(max(grid[i]) for i in range(n))
+
+        dir=[(0,1),(0,-1),(1,0),(-1,0)]
+        def dfs(i,j,visited,mark):
+            if not(0<=i<n) or not(0<=j<n):
+                return False
+            if grid[i][j]>d:
+                return False
+            if visited[i][j]!=0 and visited[i][j]!=mark:
+                return True
+            if grid[i][j]<=d and visited[i][j]==0:
+                visited[i][j]=mark
+                for dx,dy in dir:
+                    x=i+dx
+                    y=j+dy
+                    if dfs(x,y,visited,mark):
+                        return True
+            return False
+                    
+        while d<=max_height:
+            visited=[[0 for i in range(n)] for j in range(n)]
+            dfs(0,0,visited,1)
+            if dfs(n-1,n-1,visited,2):
+                return d
+            else:
+                d+=1
+        return d
+
+
+#=========================================================================================
+# Optimal binary DFS
+
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        n=len(grid)
+        
+        d=max(grid[0][0],grid[-1][-1])
+        max_height=max(max(grid[i]) for i in range(n))
+
+        dir=[(0,1),(0,-1),(1,0),(-1,0)]
+        def dfs(i,j,visited,mid):
+            
+            if 0<=i<n and 0<=j<n and grid[i][j]<=mid and not visited[i][j]:
+                if i==(n-1) and j==(n-1):
+                    return True
+                visited[i][j]=True
+                for dx,dy in dir:
+                    x=i+dx
+                    y=j+dy
+                    if dfs(x,y,visited,mid):
+                        return True
+            return False
+        l,r=d,max_height
+        ans=max_height
+        while l<=r:
+            mid=(l+r)//2
+            visited=[[False]*n for i in range(n)]
+            if dfs(0,0,visited,mid):
+                ans=mid
+                r=mid-1
+            else:
+                l=mid+1     
+        return ans
+        
